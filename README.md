@@ -434,6 +434,3 @@ Questo progetto è proprietario dell'Istituto Professionale.
 
 Made with ❤️ for students and alumni
 
-```
-
-```
