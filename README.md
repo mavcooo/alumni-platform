@@ -2,360 +2,438 @@
 
 > Piattaforma digitale che connette ex studenti (alumni) con studenti attuali per facilitare l'ingresso nel mondo del lavoro attraverso mentoring e networking professionale.
 
-## 🚀 Funzionalità Principali
+## 📋 Indice
 
-- ✅ **Sistema di Matching Intelligente** - Algoritmo che collega studenti e alumni basato su settore, competenze e interessi
-- 💬 **Messaggistica Real-time** - Chat privata con WebSocket e videochiamate integrate
-- 📋 **Bacheca Opportunità** - Pubblicazione e candidatura a stage, tirocini e posizioni lavorative
-- 🎯 **Mentorship System** - Gestione richieste e sessioni di mentoring con calendario
-- 💼 **Portfolio & Showcase** - Spazio personale per progetti e certificazioni
-- 🏆 **Sistema Endorsement** - Validazione competenze tra utenti
-- 📱 **Forum Q&A Settoriale** - Community per ogni indirizzo professionale
-- 📅 **Eventi & Networking** - Calendario con workshop, masterclass e visite aziendali
+- [Caratteristiche](#caratteristiche)
+- [Stack Tecnologico](#stack-tecnologico)
+- [Prerequisiti](#prerequisiti)
+- [Installazione](#installazione)
+- [Configurazione](#configurazione)
+- [Avvio](#avvio)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [Struttura Progetto](#struttura-progetto)
+- [API Documentation](#api-documentation)
+- [Contribuire](#contribuire)
 
-## 🏗️ Architettura
+## ✨ Caratteristiche
 
-### Tech Stack
+### Core Features
 
-**Backend**
-- Node.js 20+ (LTS)
-- Express.js + TypeScript
-- PostgreSQL 14+ (Database principale)
-- Redis (Caching & Session storage)
-- Socket.io (Real-time messaging)
-- Prisma ORM
-- JWT + OAuth 2.0 (Authentication)
-- Winston (Logging)
-- Jest + Supertest (Testing)
+- 🔐 **Autenticazione sicura**: OAuth 2.0, JWT, 2FA
+- 👥 **Sistema di Matching Intelligente**: Algoritmo che connette studenti e alumni basato su settore, competenze e interessi
+- 💬 **Messaggistica Real-time**: WebSocket per chat istantanea
+- 📢 **Bacheca Opportunità**: Stage, tirocini, posizioni lavorative
+- 🎯 **Mentorship System**: Richieste, sessioni programmate, feedback
+- 📅 **Eventi & Webinar**: Calendario integrato con RSVP
+- 💼 **Portfolio Showcase**: Galleria progetti e competenze
+- 🏆 **Sistema Endorsement**: Validazione competenze tra utenti
+- 📊 **Analytics Dashboard**: Metriche e KPI per amministratori
+- 🔒 **GDPR Compliant**: Gestione consensi, audit logs, data export
 
-**Frontend**
-- Next.js 14+ (React Framework)
-- TypeScript
-- Tailwind CSS
-- Zustand (State management)
-- React Query (Data fetching)
-- Socket.io-client
+## 🛠 Stack Tecnologico
 
-**Infrastructure**
-- Docker + Docker Compose
-- GitHub Actions (CI/CD)
-- PostgreSQL + Redis containers
+### Backend
 
-## 📦 Struttura Progetto
+- **Runtime**: Node.js 20+ con TypeScript
+- **Framework**: Express.js
+- **Database**: PostgreSQL 14+
+- **Cache**: Redis
+- **ORM**: Sequelize TypeScript
+- **Authentication**: Passport.js + JWT + OAuth 2.0
+- **Real-time**: Socket.IO
+- **Validation**: Zod
+- **File Upload**: Multer + AWS S3
+- **Email**: SendGrid / Nodemailer
+- **Logging**: Winston
+- **Testing**: Jest + Supertest
 
-```
-alumni-platform/
-├── backend/                 # Backend API (Node.js + Express)
-│   ├── src/
-│   │   ├── config/         # Configurazioni (database, auth, env)
-│   │   ├── controllers/    # Business logic per endpoint
-│   │   ├── models/         # Prisma models & types
-│   │   ├── routes/         # Route definitions
-│   │   ├── middleware/     # Auth, validation, error handling
-│   │   ├── services/       # Business services (matching, notifications)
-│   │   ├── utils/          # Helper functions
-│   │   └── tests/          # Unit & integration tests
-│   ├── prisma/             # Database schema & migrations
-│   ├── package.json
-│   ├── tsconfig.json
-│   └── Dockerfile
-├── frontend/               # Frontend (Next.js)
-│   ├── src/
-│   │   ├── app/           # Next.js 14 App Router
-│   │   ├── components/    # React components
-│   │   ├── hooks/         # Custom hooks
-│   │   ├── lib/           # Utilities & API client
-│   │   └── styles/        # Global styles
-│   ├── public/            # Static assets
-│   └── package.json
-├── docs/                   # Documentazione
-├── .github/
-│   └── workflows/         # CI/CD pipelines
-├── docker-compose.yml
-└── README.md
-```
+### DevOps
 
-## 🚀 Quick Start
+- **Containerization**: Docker + Docker Compose
+- **CI/CD**: GitHub Actions
+- **Hosting**: AWS / DigitalOcean / Railway
+- **Monitoring**: Datadog / New Relic
 
-### Prerequisiti
+## 📦 Prerequisiti
 
-- Node.js 20+ ([Download](https://nodejs.org/))
-- Docker Desktop ([Download](https://www.docker.com/products/docker-desktop))
-- Git
+- Node.js >= 20.0.0
+- npm >= 10.0.0
+- PostgreSQL >= 14
+- Redis >= 7
+- Docker & Docker Compose (opzionale, per sviluppo locale)
 
-### 1. Clone Repository
+## 🚀 Installazione
+
+### Metodo 1: Setup Manuale
 
 ```bash
-git clone https://github.com/mavcooo/alumni-platform.git
+# Clone repository
+git clone https://github.com/your-org/alumni-platform.git
 cd alumni-platform
-```
 
-### 2. Setup Backend
-
-```bash
+# Install backend dependencies
 cd backend
-cp .env.example .env
-# Modifica .env con le tue configurazioni
 npm install
-npm run db:generate  # Genera Prisma Client
-npm run db:push      # Crea database schema
-```
 
-### 3. Setup Frontend
-
-```bash
+# Install frontend dependencies
 cd ../frontend
-cp .env.local.example .env.local
 npm install
 ```
 
-### 4. Avvia con Docker (Raccomandato)
+### Metodo 2: Docker (Raccomandato)
 
 ```bash
-# Dalla root del progetto
+# Clone repository
+git clone https://github.com/your-org/alumni-platform.git
+cd alumni-platform
+
+# Start all services
 docker-compose up -d
 ```
 
-Questo avvierà:
-- Backend API → `http://localhost:3001`
-- Frontend → `http://localhost:3000`
-- PostgreSQL → `localhost:5432`
-- Redis → `localhost:6379`
+## ⚙️ Configurazione
 
-### 5. Sviluppo Locale (senza Docker)
+### 1. Variabili d'ambiente
 
-**Terminal 1 - Database**
 ```bash
-docker-compose up postgres redis -d
+# Backend
+cd backend
+cp .env.example .env
 ```
 
-**Terminal 2 - Backend**
+Variabili chiave da configurare:
+
+```env
+# Database
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=your_secure_password
+DATABASE_URL=postgresql://user:password@localhost:5432/alumni_platform
+
+# JWT Secrets (genera con: openssl rand -hex 32)
+JWT_SECRET=your_super_secret_jwt_key
+JWT_REFRESH_SECRET=your_refresh_secret_key
+
+# OAuth Google
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
+
+# SendGrid
+SENDGRID_API_KEY=your_sendgrid_key
+
+# AWS S3
+AWS_ACCESS_KEY_ID=your_access_key
+AWS_SECRET_ACCESS_KEY=your_secret_key
+AWS_S3_BUCKET=your_bucket_name
+
+# Redis
+REDIS_URL=redis://localhost:6379
+
+# Environment
+NODE_ENV=development
+```
+
+### 2. Database Setup
+
+```bash
+# Con Docker (automatico)
+docker-compose up -d postgres
+
+# Manuale
+psql -U postgres
+CREATE DATABASE alumni_platform;
+```
+
+### 3. Migrazioni e Seed
+
 ```bash
 cd backend
-npm run dev
+
+# Run migrations
+npx prisma migrate dev
+
+# Generate Prisma client
+npx prisma generate
+
+# Seed database (opzionale)
+npm run seed
 ```
 
-**Terminal 3 - Frontend**
+## 🏃 Avvio
+
+### Development Mode
+
 ```bash
+# Backend
+cd backend
+npm run dev  # Runs on http://localhost:5000
+
+# Frontend
 cd frontend
-npm run dev
+npm run dev  # Runs on http://localhost:3000
+```
+
+### Con Docker
+
+```bash
+docker-compose up
+
+# Access services:
+# Backend API: http://localhost:5000
+# Frontend: http://localhost:3000
+# PostgreSQL: localhost:5432
+# Redis: localhost:6379
+```
+
+### Production Build
+
+```bash
+# Backend
+cd backend
+npm run build
+npm start
+
+# Frontend
+cd frontend
+npm run build
+npm start
 ```
 
 ## 🧪 Testing
 
 ```bash
-# Backend tests
 cd backend
-npm test                    # Run all tests
-npm run test:watch          # Watch mode
-npm run test:coverage       # Coverage report
 
-# Frontend tests
-cd frontend
+# Run all tests
 npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Generate coverage report
+npm test -- --coverage
 ```
 
-## 📚 Documentazione API
+### Test Categories
 
-Dopo aver avviato il backend, la documentazione Swagger è disponibile su:
+- **Unit Tests**: `src/**/*.test.ts`
+- **Integration Tests**: `src/tests/integration/*.test.ts`
+- **E2E Tests**: `src/tests/e2e/*.test.ts`
+
+## 📚 API Documentation
+
+### Base URL
 
 ```
-http://localhost:3001/api-docs
+Development: http://localhost:5000/api/v1
+Production: https://api.alumni-platform.it/api/v1
 ```
 
-### Endpoint Principali
+### Endpoints Principali
 
-#### Autenticazione
-- `POST /api/auth/register` - Registrazione utente
-- `POST /api/auth/login` - Login (JWT)
-- `POST /api/auth/refresh` - Refresh token
-- `GET /api/auth/oauth/google` - OAuth Google
+#### Authentication
 
-#### Utenti
-- `GET /api/users/me` - Profilo utente autenticato
-- `PATCH /api/users/me` - Aggiorna profilo
-- `GET /api/users/:id` - Profilo pubblico
+```
+POST   /api/v1/auth/register          # Registrazione
+POST   /api/v1/auth/login             # Login
+POST   /api/v1/auth/refresh           # Refresh token
+POST   /api/v1/auth/logout            # Logout
+GET    /api/v1/auth/google            # OAuth Google
+POST   /api/v1/auth/2fa/enable        # Abilita 2FA
+POST   /api/v1/auth/2fa/verify        # Verifica 2FA
+```
+
+#### Users & Profiles
+
+```
+GET    /api/v1/users/me               # Profilo utente corrente
+PATCH  /api/v1/users/me               # Aggiorna profilo
+GET    /api/v1/users/:id              # Profilo pubblico
+DELETE /api/v1/users/me               # Elimina account
+```
 
 #### Mentorship
-- `POST /api/mentorship/request` - Richiesta mentoring
-- `GET /api/mentorship/matches` - Alumni suggeriti
-- `PATCH /api/mentorship/:id/accept` - Accetta richiesta
 
-#### Opportunità
-- `GET /api/opportunities` - Lista opportunità
-- `POST /api/opportunities` - Pubblica (alumni only)
-- `POST /api/opportunities/:id/apply` - Candidatura
-
-#### Messaggi
-- `GET /api/messages/:conversationId` - Storico chat
-- `POST /api/messages` - Invia messaggio
-- `WS /ws/messages` - WebSocket real-time
-
-## 🔐 Variabili d'Ambiente
-
-### Backend (.env)
-
-```env
-# Server
-NODE_ENV=development
-PORT=3001
-
-# Database
-DATABASE_URL=postgresql://alumni:password@localhost:5432/alumni_platform
-
-# Redis
-REDIS_URL=redis://localhost:6379
-
-# JWT
-JWT_SECRET=your-super-secret-jwt-key-change-in-production
-JWT_REFRESH_SECRET=your-super-secret-refresh-key
-JWT_EXPIRES_IN=15m
-JWT_REFRESH_EXPIRES_IN=7d
-
-# OAuth
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
-GOOGLE_CALLBACK_URL=http://localhost:3001/api/auth/oauth/google/callback
-
-# Email (SendGrid)
-SENDGRID_API_KEY=your-sendgrid-api-key
-FROM_EMAIL=noreply@alumni-platform.it
-
-# File Upload (AWS S3 / Cloudflare R2)
-AWS_REGION=eu-south-1
-AWS_ACCESS_KEY_ID=your-access-key
-AWS_SECRET_ACCESS_KEY=your-secret-key
-S3_BUCKET=alumni-platform-uploads
-
-# Frontend URL
-FRONTEND_URL=http://localhost:3000
+```
+POST   /api/v1/mentorship/request     # Richiesta mentoring
+GET    /api/v1/mentorship/matches     # Alumni suggeriti
+GET    /api/v1/mentorship/requests    # Mie richieste
+PATCH  /api/v1/mentorship/:id/accept  # Accetta richiesta
+POST   /api/v1/mentorship/:id/session # Programma sessione
 ```
 
-## 🐳 Docker Commands
+#### Opportunities
+
+```
+GET    /api/v1/opportunities           # Lista opportunità
+POST   /api/v1/opportunities           # Pubblica opportunità (alumni)
+GET    /api/v1/opportunities/:id       # Dettaglio opportunità
+PATCH  /api/v1/opportunities/:id       # Aggiorna opportunità
+DELETE /api/v1/opportunities/:id       # Elimina opportunità
+POST   /api/v1/opportunities/:id/apply # Candidatura
+```
+
+#### Messages
+
+```
+GET    /api/v1/conversations           # Lista conversazioni
+GET    /api/v1/conversations/:id       # Dettaglio conversazione
+POST   /api/v1/conversations           # Nuova conversazione
+GET    /api/v1/messages/:conversationId # Messaggi
+POST   /api/v1/messages                # Invia messaggio (via WebSocket)
+```
+
+#### Events
+
+```
+GET    /api/v1/events                  # Lista eventi
+POST   /api/v1/events                  # Crea evento (admin)
+GET    /api/v1/events/:id              # Dettaglio evento
+POST   /api/v1/events/:id/register     # RSVP evento
+DELETE /api/v1/events/:id/register     # Annulla RSVP
+```
+
+#### Forum
+
+```
+GET    /api/v1/forum/categories        # Categorie forum
+GET    /api/v1/forum/:category         # Post per categoria
+POST   /api/v1/forum/posts             # Nuovo post
+POST   /api/v1/forum/posts/:id/reply   # Risposta
+POST   /api/v1/forum/posts/:id/vote    # Upvote/downvote
+```
+
+### Autenticazione API
+
+Tutte le richieste protette richiedono header:
+
+```
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+## 📁 Struttura Progetto
+
+```
+alumni-platform/
+├── backend/
+│   ├── src/
+│   │   ├── config/           # Configurazioni (DB, Redis, Auth)
+│   │   ├── controllers/      # Logic layer
+│   │   ├── models/           # Prisma models
+│   │   ├── routes/           # Express routes
+│   │   ├── middleware/       # Auth, validation, error handling
+│   │   ├── services/         # Business logic (matching, email, etc.)
+│   │   ├── utils/            # Helpers, logger, errors
+│   │   ├── tests/            # Test suites
+│   │   └── index.ts          # App entry point
+│   ├── prisma/
+│   │   └── schema.prisma     # Database schema
+│   ├── uploads/              # Temporary uploads
+│   ├── .env.example
+│   ├── Dockerfile
+│   ├── package.json
+│   └── tsconfig.json
+├── frontend/
+│   ├── src/
+│   │   ├── components/       # React components
+│   │   ├── pages/            # Next.js pages
+│   │   ├── hooks/            # Custom hooks
+│   │   ├── context/          # Global state
+│   │   ├── utils/            # API client, helpers
+│   │   └── styles/           # CSS/Tailwind
+│   └── package.json
+├── docs/
+│   ├── api.md                # API documentation
+│   ├── architecture.md       # System architecture
+│   └── deployment.md         # Deployment guide
+├── .github/
+│   └── workflows/
+│       └── ci-cd.yml         # GitHub Actions
+├── docker-compose.yml
+└── README.md
+```
+
+## 🚢 Deployment
+
+### DigitalOcean App Platform
 
 ```bash
-# Avvia tutti i servizi
-docker-compose up -d
-
-# Stop servizi
-docker-compose down
-
-# View logs
-docker-compose logs -f backend
-
-# Rebuild after code changes
-docker-compose up -d --build
-
-# Database migrations
-docker-compose exec backend npm run db:migrate
-
-# Seed database
-docker-compose exec backend npm run db:seed
+# 1. Create app from GitHub repo
+# 2. Configure environment variables
+# 3. Set build command: npm run build
+# 4. Set run command: npm start
+# 5. Deploy
 ```
 
-## 📊 Database Schema
+### AWS EC2
 
-Lo schema completo PostgreSQL è disponibile in `backend/prisma/schema.prisma`.
+```bash
+# 1. Launch EC2 instance (t3.medium)
+# 2. Install Docker & Docker Compose
+# 3. Clone repository
+# 4. Configure .env
+# 5. Run docker-compose up -d
+# 6. Setup Nginx reverse proxy
+# 7. Configure SSL with Let's Encrypt
+```
 
-### Tabelle Principali
+### Railway
 
-- **users** - Autenticazione e ruoli (student, alumni, admin)
-- **profiles** - Dati anagrafici comuni
-- **student_profiles** - Estensione studenti
-- **alumni_profiles** - Estensione alumni
-- **opportunities** - Annunci lavoro
-- **applications** - Candidature
-- **mentorship_requests** - Richieste mentoring
-- **messages** - Messaggistica
-- **events** - Calendario eventi
-- **forum_posts** - Forum community
-- **skills** & **endorsements** - Sistema competenze
+```bash
+# 1. Connect GitHub repository
+# 2. Add PostgreSQL and Redis services
+# 3. Configure environment variables
+# 4. Deploy automatically on push
+```
 
-## 🔄 CI/CD Pipeline
+## 📊 Metriche di Successo
 
-GitHub Actions automatizza:
+| KPI                          | Target Anno 1 | Target Anno 3 |
+| ---------------------------- | ------------- | ------------- |
+| Tasso registrazione studenti | 60%           | 85%           |
+| Utenti attivi mensili        | 350           | 943           |
+| Matching mentorship/mese     | 25            | 80            |
+| Placement lavorativo         | 15%           | 35%           |
+| NPS Score                    | 30+           | 60+           |
 
-1. **Lint & Test** - Su ogni push/PR
-2. **Build** - Verifica compilazione TypeScript
-3. **Deploy Staging** - Auto-deploy su push a `develop`
-4. **Deploy Production** - Manual approval per push a `main`
-
-## 🛡️ Security Features
-
-- ✅ Password hashing con bcrypt (cost factor 12)
-- ✅ JWT con refresh token rotation
-- ✅ Rate limiting (100 req/15min per IP)
-- ✅ Helmet.js security headers
-- ✅ CORS configurato
-- ✅ Input validation con Zod
-- ✅ SQL injection prevention (Prisma)
-- ✅ XSS protection
-- ✅ GDPR compliance (data export, soft delete)
-- ✅ 2FA optional (TOTP)
-
-## 📈 Performance
-
-- Connection pooling PostgreSQL (max 20 connections)
-- Redis caching per query frequenti
-- Database indexes ottimizzati
-- Lazy loading frontend components
-- Image optimization (Next.js Image)
-
-## 🤝 Contributing
+## 🤝 Contribuire
 
 1. Fork il progetto
-2. Crea feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add AmazingFeature'`)
-4. Push branch (`git push origin feature/AmazingFeature`)
+2. Crea branch feature (`git checkout -b feature/AmazingFeature`)
+3. Commit modifiche (`git commit -m 'Add AmazingFeature'`)
+4. Push al branch (`git push origin feature/AmazingFeature`)
 5. Apri Pull Request
 
-### Code Style
+### Coding Standards
 
-- ESLint + Prettier configurati
-- Segui convenzioni TypeScript
-- Scrivi test per nuove features
-- Documenta funzioni complesse
+- TypeScript strict mode
+- ESLint + Prettier
+- Test coverage > 80%
+- Commit messages: Conventional Commits
 
-## 📝 License
+## 📄 Licenza
 
-Questo progetto è licenziato sotto MIT License - vedi [LICENSE](LICENSE) per dettagli.
+Questo progetto è proprietario dell'Istituto Professionale.
 
 ## 👥 Team
 
-- **Product Owner** - Direzione Istituto
-- **Tech Lead** - Marco Gastaldello
-- **Backend** - [Team Backend]
-- **Frontend** - [Team Frontend]
-- **UX/UI** - [Designer]
+- **Project Manager**: TBD
+- **Lead Developer**: TBD
+- **Frontend Developer**: TBD
+- **DevOps Engineer**: TBD
 
-## 📞 Support
+## 📞 Supporto
 
-- 📧 Email: support@alumni-platform.it
-- 📚 Docs: [Wiki](https://github.com/mavcooo/alumni-platform/wiki)
-- 🐛 Issues: [GitHub Issues](https://github.com/mavcooo/alumni-platform/issues)
-
-## 🗺️ Roadmap
-
-### ✅ Phase 1 - MVP (Completata)
-- [x] Sistema autenticazione
-- [x] Profili studenti/alumni
-- [x] Matching base
-- [x] Messaggistica
-- [x] Bacheca opportunità
-
-### 🚧 Phase 2 - Community (In corso)
-- [ ] Forum Q&A
-- [ ] Eventi & calendario
-- [ ] Sistema notifiche
-- [ ] Dashboard admin
-
-### 📅 Phase 3 - Advanced (Q2 2026)
-- [ ] Portfolio showcase
-- [ ] Videochiamate integrate
-- [ ] Analytics avanzati
-- [ ] AI-powered recommendations
-- [ ] Mobile app (React Native)
+- Email: support@alumni-platform.it
+- Documentation: docs.alumni-platform.it
+- Issues: GitHub Issues
 
 ---
 
-**Made with ❤️ for Italian Vocational Education**
+Made with ❤️ for students and alumni
+
+```
+
+```
