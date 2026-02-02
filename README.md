@@ -419,7 +419,7 @@ Questo progetto è proprietario dell'Istituto Professionale.
 
 ## 👥 Team
 
-- **Project Manager**: TBD
+- **Project Manager**: @mavcooo
 - **Lead Developer**: TBD
 - **Frontend Developer**: TBD
 - **DevOps Engineer**: TBD
